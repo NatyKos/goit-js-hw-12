@@ -12,8 +12,7 @@ export async function searchImages(query, page) {
             per_page: 15,
             page: page
         }
-    }
-    )
+    })
     return response.data
 }
 

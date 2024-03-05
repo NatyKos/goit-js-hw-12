@@ -39,12 +39,13 @@ input:hover {
 }
 .gallery {
   width: auto;
-  height: 792px;
+  height: auto;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 24px;
   justify-content: center;
+  margin-bottom: 20px;
 }
 img {
   width: 260px;
@@ -69,6 +70,16 @@ a {
   letter-spacing: 0.04em;
   color: #2e2f42;
 }
+.load-more {
+  width: 140px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 22px;
+}
+.hidden {
+  display: none;
+}
 
 /*анімація завантаження */
 .loader {
@@ -78,6 +89,9 @@ a {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 400;
   position: relative;
+  left: 40%;
+  margin-bottom: 15px;
+  margin-top: 15px;
 }
 .loader:after {
   content: 'Loading';

@@ -1,7 +1,7 @@
 export const gallery = document.querySelector('.gallery');
 
 function newImages({ largeImageURL, webformatURL, tags, likes, views, comments, downloads }) {
-    return `<a href="${largeImageURL}">
+    return `<a class = 'img-box' href="${largeImageURL}">
                 <img src="${webformatURL}" alt="${tags}"/>
                 <div class="info-box">
                     <p class="info"><b>Likes</b> ${likes}</p>
@@ -10,9 +10,9 @@ function newImages({ largeImageURL, webformatURL, tags, likes, views, comments, 
                     <p class="info"><b>Downloads</b> ${downloads}</p>
                 </div>
             </a>`
-};
+}
 
 export function createGallery(elements) {
     const markup = elements.map(newImages).join('');
-    return gallery.insertAdjacentHTML('beforeEnd', markup);
-};
+    return gallery.insertAdjacentHTML('beforeend', markup);
+}
