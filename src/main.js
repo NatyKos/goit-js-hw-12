@@ -30,6 +30,24 @@ const lightbox = new SimpleLightbox('.gallery a', {
 let query;
 let page;
 
+async function lastPage() {
+    const data = await searchImages(query, page);
+    const totalPages = data.totalHits / 15;
+    if (page >= totalPages) {
+        btnLoadMore.classList.add('hidden');
+        iziToast.show({
+            iconUrl: icon,
+            message: `"We're sorry, but you've reached the end of search results`,
+            messageColor: '#ffffff',
+            color: '#1e81b0',
+            position: 'topRight',
+            progressBarColor: '#ffffff',
+            close: false,
+            timeout: 5000
+        })
+    }
+}
+
 form.addEventListener('submit', showGallery)
 
 async function showGallery(event) {
@@ -41,15 +59,13 @@ async function showGallery(event) {
         loading.classList.add('loader');
         try {
             const data = await searchImages(query, page);
-            if (data.total !== 0) {
+            if (data.totalHits !== 0) {
                 loading.classList.remove('loader');
                 createGallery(data.hits);
                 lightbox;
                 lightbox.refresh();
                 btnLoadMore.classList.remove('hidden');
-                if (data.totalHits < 15) {
-                    btnLoadMore.classList.add('hidden')
-                }
+                lastPage();
             } else {
                 iziToast.show({
                     iconUrl: icon,
@@ -88,47 +104,18 @@ async function showGallery(event) {
     }
 }
 
-btnLoadMore.addEventListener('click', loadMore);
+btnLoadMore.addEventListener('click', loadMore)
 
 async function loadMore() {
-    loading.classList.add('loader');
     btnLoadMore.classList.add('hidden');
+    loading.classList.add('loader');
     page++;
-    try {
-        const newData = await searchImages(query, page);
-        loading.classList.remove('loader');
-        createGallery(newData.hits);
-        scrollAfterLoadind();
-        btnLoadMore.classList.remove('hidden');
-        lightbox.refresh();
-        if (newData.hits.length < 15) {
-            btnLoadMore.classList.add('hidden');
-            iziToast.show({
-                iconUrl: icon,
-                message: `"We're sorry, but you've reached the end of search results`,
-                messageColor: '#ffffff',
-                color: '#1e81b0',
-                position: 'topRight',
-                progressBarColor: '#ffffff',
-                close: false,
-                timeout: 5000
-            })
-        }
-    }
-    catch (error) {
-        iziToast.show({
-                iconUrl: icon,
-                message: `Sorry, there is a problem - ${error}!`,
-                messageColor: '#ffffff',
-                color: '#FF7F50',
-                position: 'topRight',
-                progressBarColor: '#ffffff',
-                close: false,
-                timeout: 5000
-            });
-        console.log(error);
-        loading.classList.remove('loader')
-    }
-} 
-
+    const data = await searchImages(query, page);
+    loading.classList.remove('loader');
+    createGallery(data.hits);
+    scrollAfterLoadind();
+    btnLoadMore.classList.remove('hidden');
+    lightbox.refresh();
+    lastPage();
+}
 
