@@ -37,7 +37,7 @@ async function lastPage() {
         btnLoadMore.classList.add('hidden');
         iziToast.show({
             iconUrl: icon,
-            message: `"We're sorry, but you've reached the end of search results`,
+            message: `We're sorry, but you've reached the end of search results`,
             messageColor: '#ffffff',
             color: '#1e81b0',
             position: 'topRight',
