@@ -30,9 +30,8 @@ const lightbox = new SimpleLightbox('.gallery a', {
 let query;
 let page;
 
-async function lastPage() {
-    const data = await searchImages(query, page);
-    const totalPages = data.totalHits / 15;
+function lastPage(images) {
+    const totalPages = images.totalHits / 15;
     if (page >= totalPages) {
         btnLoadMore.classList.add('hidden');
         iziToast.show({
@@ -62,10 +61,9 @@ async function showGallery(event) {
             if (data.totalHits !== 0) {
                 loading.classList.remove('loader');
                 createGallery(data.hits);
-                lightbox;
                 lightbox.refresh();
                 btnLoadMore.classList.remove('hidden');
-                lastPage();
+                lastPage(data);
             } else {
                 iziToast.show({
                     iconUrl: icon,
@@ -116,6 +114,6 @@ async function loadMore() {
     scrollAfterLoadind();
     btnLoadMore.classList.remove('hidden');
     lightbox.refresh();
-    lastPage();
+    lastPage(data);
 }
 
